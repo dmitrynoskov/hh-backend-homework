@@ -1,15 +1,18 @@
 package ru.hh.school.mapper;
 
-import ru.hh.school.dto.employer.EmployerResponse;
-import ru.hh.school.dto.employer.EmployerShortResponse;
-import ru.hh.school.dto.employer.HhEmployerResponse;
-import ru.hh.school.dto.employer.HhShortEmployerResponse;
+import ru.hh.school.Popularity;
+import ru.hh.school.dto.AreaDto;
+import ru.hh.school.dto.employer.*;
+import ru.hh.school.entity.Area;
+import ru.hh.school.entity.FavouriteEmployer;
 
-//import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.util.Date;
 
 public class EmployerMapper {
 
-  //private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-ddThh:mm:ssZ");
+  private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
 
   public static EmployerShortResponse toShortResponse(HhEmployerResponse hhEmployerResponse) {
     return new EmployerShortResponse(hhEmployerResponse.getId(), hhEmployerResponse.getName());
@@ -28,14 +31,17 @@ public class EmployerMapper {
     );
   }
 
-  /*public static FavouriteEmployer toEmployerEntity(EmployerResponse employerResponse) {
+  public static FavouriteEmployer toEmployerEntity(EmployerResponse employerResponse, String comment) {
     Area area = toAreaEntity(employerResponse.getArea());
     FavouriteEmployer favouriteEmployer = new FavouriteEmployer();
     favouriteEmployer.setId(employerResponse.getId());
     favouriteEmployer.setName(employerResponse.getName());
     favouriteEmployer.setDescription(employerResponse.getDescription());
     favouriteEmployer.setArea(area);
-    favouriteEmployer.setCreationDate(simpleDateFormat.format(OffsetDateTime.now()));
+    favouriteEmployer.setCreationDate(simpleDateFormat.format(Date.from(OffsetDateTime.now().toInstant())));
+    favouriteEmployer.setComment(comment);
+    favouriteEmployer.setViewsCount(0);
+    favouriteEmployer.setPopularity(Popularity.REGULAR);
     return favouriteEmployer;
   }
 
@@ -55,6 +61,6 @@ public class EmployerMapper {
   }
   private static Area toAreaEntity(AreaDto areaDto) {
     return new Area(areaDto.getId(), areaDto.getName());
-  }*/
+  }
 
 }

@@ -1,6 +1,6 @@
-/*
 package ru.hh.school.resource;
 
+import ru.hh.school.dto.employer.EmployerAddRequest;
 import ru.hh.school.service.FavouriteEmployerService;
 
 import javax.inject.Inject;
@@ -24,8 +24,8 @@ public class FavouriteEmployerController {
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response postEmployer(@NotNull @FormParam("employer_id") Long id, @FormParam("comment") String comment) {
-    if (favouriteEmployerService.addEmployer(id, comment)) {
+  public Response postEmployer(EmployerAddRequest body) {
+    if (favouriteEmployerService.addEmployer(body.getId(), body.getComment())) {
       return Response.ok().build();
     } else {
       return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -42,9 +42,9 @@ public class FavouriteEmployerController {
   }
 
   @PUT
-  @Consumes(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.TEXT_PLAIN)
   @Path("/{employer_id}")
-  public Response putEmployer(@NotNull @PathParam("employer_id") Long id, @FormParam("comment") String comment) {
+  public Response putEmployer(@NotNull @PathParam("employer_id") Long id, String comment) {
     if (favouriteEmployerService.updateComment(id, comment)) {
       return Response.ok().build();
     } else {
@@ -73,4 +73,3 @@ public class FavouriteEmployerController {
   }
 
 }
-*/

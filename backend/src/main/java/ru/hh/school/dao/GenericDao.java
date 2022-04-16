@@ -1,4 +1,3 @@
-/*
 package ru.hh.school.dao;
 
 import org.hibernate.Session;
@@ -44,4 +43,3 @@ public class GenericDao {
     return sessionFactory.getCurrentSession();
   }
 }
-*/

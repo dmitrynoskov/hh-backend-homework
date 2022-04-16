@@ -1,13 +1,15 @@
-/*
 package ru.hh.school.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+@Singleton
 public class TransactionHelper {
   private final SessionFactory sessionFactory;
 
@@ -16,6 +18,7 @@ public class TransactionHelper {
     this.sessionFactory = sessionFactory;
   }
 
+  @Transactional
   public <T> T inTransaction(Supplier<T> supplier) {
     Optional<Transaction> transaction = beginTransaction();
     try {
@@ -30,6 +33,7 @@ public class TransactionHelper {
     }
   }
 
+  @Transactional
   public void inTransaction(Runnable runnable) {
     inTransaction(() -> {
       runnable.run();
@@ -47,4 +51,3 @@ public class TransactionHelper {
   }
 
 }
-*/

@@ -1,6 +1,6 @@
-/*
 package ru.hh.school.entity;
 
+import org.hibernate.annotations.Type;
 import ru.hh.school.Popularity;
 
 import javax.persistence.*;
@@ -8,19 +8,29 @@ import javax.persistence.*;
 @Entity
 @Table(name = "favourite_employer")
 public class FavouriteEmployer {
+
   @Id
   @Column(name = "employer_id")
   private Long id;
+
   @Column(name = "employer_name")
   private String name;
+
   @Column(name = "date_creation")
   private String creationDate;
+
   private String description;
+
   @JoinColumn(name = "area_id")
   @ManyToOne(fetch = FetchType.LAZY)
   private Area area;
+
   private String comment;
+
+  @Enumerated(EnumType.STRING)
+  @Type(type = "ru.hh.school.PostgreSQLEnumType")
   private Popularity popularity;
+
   @Column(name = "views_count")
   private Integer viewsCount;
 
@@ -88,4 +98,3 @@ public class FavouriteEmployer {
     this.viewsCount = viewsCount;
   }
 }
-*/

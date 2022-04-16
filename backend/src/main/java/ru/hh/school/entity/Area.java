@@ -1,4 +1,3 @@
-/*
 package ru.hh.school.entity;
 
 import org.hibernate.annotations.GeneratorType;
@@ -9,7 +8,6 @@ import javax.persistence.*;
 @Table(name = "area")
 public class Area {
   @Id
-
   @Column(name = "area_id")
   private Long id;
 
@@ -40,4 +38,3 @@ public class Area {
     this.name = name;
   }
 }
-*/
