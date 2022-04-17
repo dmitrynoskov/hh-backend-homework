@@ -37,11 +37,14 @@ public class FavouriteEmployerService {
     EmployerResponseDto employerResponseDto = employerService.getEmployerById(employerId);
     FavouriteEmployer favouriteEmployer = EmployerMapper.toEmployerEntity(employerResponseDto, comment);
     Area area = favouriteEmployer.getArea();
-    transactionHelper.inTransaction(() -> {
+    return transactionHelper.inTransaction(() -> {
       areaDao.saveOrUpdate(area);
+      if (favouriteEmployerDao.get(FavouriteEmployer.class, favouriteEmployer.getId()) != null) {
+        return false;
+      }
       favouriteEmployerDao.save(favouriteEmployer);
+      return true;
     });
-    return true;
   }
 
   public List<FavouriteEmployerResponseDto> getEmployers(Integer page, Integer perPage) {
@@ -57,35 +60,45 @@ public class FavouriteEmployerService {
   }
 
   public boolean updateComment(Long employerId, String comment) {
-    transactionHelper.inTransaction(() -> {
+    return transactionHelper.inTransaction(() -> {
       FavouriteEmployer favouriteEmployer = favouriteEmployerDao.get(FavouriteEmployer.class, employerId);
-      favouriteEmployer.setComment(comment);
-      favouriteEmployerDao.update(favouriteEmployer);
+      if (favouriteEmployer != null) {
+        favouriteEmployer.setComment(comment);
+        favouriteEmployerDao.update(favouriteEmployer);
+        return true;
+      }
+      return false;
     });
-    return true;
   }
 
   public boolean delete(Long employerId) {
-    transactionHelper.inTransaction(() -> {
-      favouriteEmployerDao.delete(FavouriteEmployer.class, employerId);
+    return transactionHelper.inTransaction(() -> {
+      FavouriteEmployer favouriteEmployer = favouriteEmployerDao.get(FavouriteEmployer.class, employerId);
+      if (favouriteEmployer != null) {
+        favouriteEmployerDao.delete(favouriteEmployer);
+        return true;
+      }
+      return false;
     });
-    return true;
   }
 
   public boolean refresh(Long employerId) {
     EmployerResponseDto employerResponseDto = employerService.getEmployerById(employerId);
     FavouriteEmployer freshEmployer = EmployerMapper.toEmployerEntity(employerResponseDto, "");
     Area freshArea = freshEmployer.getArea();
-    transactionHelper.inTransaction(() -> {
+    return transactionHelper.inTransaction(() -> {
       areaDao.saveOrUpdate(freshArea);
       FavouriteEmployer oldEmployer = favouriteEmployerDao.get(FavouriteEmployer.class, freshEmployer.getId());
-      oldEmployer.setName(freshEmployer.getName());
-      oldEmployer.setDescription(freshEmployer.getDescription());
-      oldEmployer.setCreationDate(freshEmployer.getCreationDate());
-      oldEmployer.setArea(freshArea);
-      favouriteEmployerDao.update(oldEmployer);
+      if (oldEmployer != null) {
+        oldEmployer.setName(freshEmployer.getName());
+        oldEmployer.setDescription(freshEmployer.getDescription());
+        oldEmployer.setCreationDate(freshEmployer.getCreationDate());
+        oldEmployer.setArea(freshArea);
+        favouriteEmployerDao.update(oldEmployer);
+        return true;
+      }
+      return false;
     });
-    return true;
   }
 
 }

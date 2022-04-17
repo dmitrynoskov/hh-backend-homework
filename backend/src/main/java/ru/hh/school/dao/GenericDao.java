@@ -3,7 +3,6 @@ package ru.hh.school.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import ru.hh.nab.common.properties.FileSettings;
-import ru.hh.school.entity.FavouriteEmployer;
 
 import javax.inject.Inject;
 import java.io.Serializable;
@@ -29,16 +28,11 @@ public class GenericDao {
     getSession().save(object);
   }
 
-/*  public void delete(Object object) {
+  public void delete(Object object) {
     if (object == null) {
       return;
     }
     getSession().remove(object);
-  }*/
-
-  public <T> void delete(Class<T> clazz, Long id) {
-    T entity = getSession().find(clazz, id);
-    getSession().remove(entity);
   }
 
   public void update(Object object) {

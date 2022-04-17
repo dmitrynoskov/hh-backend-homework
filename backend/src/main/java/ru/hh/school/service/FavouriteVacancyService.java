@@ -41,11 +41,14 @@ public class FavouriteVacancyService {
     VacancyResponseDto vacancyResponseDto = vacancyService.getVacancyById(vacancyId);
     FavouriteVacancy favouriteVacancy = VacancyMapper.toVacancyEntity(vacancyResponseDto, comment);
     Area area = favouriteVacancy.getArea();
-    transactionHelper.inTransaction(() -> {
+    return transactionHelper.inTransaction(() -> {
       areaDao.saveOrUpdate(area);
+      if (favouriteVacancyDao.get(FavouriteVacancy.class, vacancyId) != null) {
+        return false;
+      }
       favouriteVacancyDao.save(favouriteVacancy);
+      return true;
     });
-    return true;
   }
 
   public List<FavouriteVacancyResponseDto> getVacancies(Integer page, Integer perPage) {
@@ -64,40 +67,50 @@ public class FavouriteVacancyService {
   }
 
   public boolean updateComment(Long vacancyId, String comment) {
-    transactionHelper.inTransaction(() -> {
+   return transactionHelper.inTransaction(() -> {
       FavouriteVacancy favouriteVacancy = favouriteVacancyDao.get(FavouriteVacancy.class, vacancyId);
-      favouriteVacancy.setComment(comment);
-      favouriteVacancyDao.update(favouriteVacancy);
+      if (favouriteVacancy != null) {
+        favouriteVacancy.setComment(comment);
+        favouriteVacancyDao.update(favouriteVacancy);
+        return true;
+      }
+      return false;
     });
-    return true;
   }
 
   public boolean delete(Long vacancyId) {
-    transactionHelper.inTransaction(() -> {
-      favouriteVacancyDao.delete(FavouriteVacancy.class, vacancyId);
+    return transactionHelper.inTransaction(() -> {
+      FavouriteVacancy favouriteVacancy = favouriteVacancyDao.get(FavouriteVacancy.class, vacancyId);
+      if (favouriteVacancy != null) {
+        favouriteVacancyDao.delete(favouriteVacancy);
+        return true;
+      }
+      return false;
     });
-    return true;
   }
 
   public boolean refresh(Long vacancyId) {
     VacancyResponseDto vacancyResponseDto = vacancyService.getVacancyById(vacancyId);
     FavouriteVacancy freshVacancy = VacancyMapper.toVacancyEntity(vacancyResponseDto, "");
     Area freshArea = freshVacancy.getArea();
-    transactionHelper.inTransaction(() -> {
+    return transactionHelper.inTransaction(() -> {
       areaDao.saveOrUpdate(freshArea);
       FavouriteVacancy oldVacancy = favouriteVacancyDao.get(FavouriteVacancy.class, freshVacancy.getId());
-      oldVacancy.setName(freshVacancy.getName());
-      oldVacancy.setDateCreation(freshVacancy.getDateCreation());
-      oldVacancy.setArea(freshArea);
-      oldVacancy.setSalaryFrom(freshVacancy.getSalaryFrom());
-      oldVacancy.setSalaryTo(freshVacancy.getSalaryTo());
-      oldVacancy.setSalaryCurrency(freshVacancy.getSalaryCurrency());
-      oldVacancy.setSalaryGross(freshVacancy.getSalaryGross());
-      oldVacancy.setEmployerId(freshVacancy.getEmployerId());
-      oldVacancy.setEmployerName(freshVacancy.getEmployerName());
-      favouriteVacancyDao.update(oldVacancy);
+      if (oldVacancy != null) {
+        oldVacancy.setName(freshVacancy.getName());
+        oldVacancy.setDateCreation(freshVacancy.getDateCreation());
+        oldVacancy.setArea(freshArea);
+        oldVacancy.setSalaryFrom(freshVacancy.getSalaryFrom());
+        oldVacancy.setSalaryTo(freshVacancy.getSalaryTo());
+        oldVacancy.setSalaryCurrency(freshVacancy.getSalaryCurrency());
+        oldVacancy.setSalaryGross(freshVacancy.getSalaryGross());
+        oldVacancy.setEmployerId(freshVacancy.getEmployerId());
+        oldVacancy.setEmployerName(freshVacancy.getEmployerName());
+        favouriteVacancyDao.update(oldVacancy);
+        return true;
+      }
+      return false;
     });
-    return true;
   }
 
 }

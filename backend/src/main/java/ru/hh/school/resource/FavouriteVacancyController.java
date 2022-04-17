@@ -36,7 +36,9 @@ public class FavouriteVacancyController {
     if (favouriteVacancyService.addVacancy(body.getId(), body.getComment())) {
       return Response.ok().build();
     } else {
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      return Response.status(Response.Status.BAD_REQUEST)
+        .entity(String.format("Favourite vacancy with id = %s already exists!", body.getId()))
+        .build();
     }
   }
 
@@ -55,7 +57,9 @@ public class FavouriteVacancyController {
     if (favouriteVacancyService.delete(id)) {
       return Response.ok().build();
     } else {
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+        .entity(String.format("Favourite vacancy with id = %s does not exist!", id))
+        .build();
     }
   }
 
@@ -65,7 +69,9 @@ public class FavouriteVacancyController {
     if (favouriteVacancyService.refresh(id)) {
       return Response.ok().build();
     } else {
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      return Response.status(Response.Status.BAD_REQUEST)
+        .entity(String.format("Favourite vacancy with id = %s does not exist!", id))
+        .build();
     }
   }
 

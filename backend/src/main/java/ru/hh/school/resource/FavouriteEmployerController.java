@@ -7,7 +7,16 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -28,7 +37,9 @@ public class FavouriteEmployerController {
     if (favouriteEmployerService.addEmployer(body.getId(), body.getComment())) {
       return Response.ok().build();
     } else {
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      return Response.status(Response.Status.BAD_REQUEST)
+        .entity(String.format("Favourite employer with id = %s already exists!", body.getId()))
+        .build();
     }
   }
 
@@ -48,7 +59,9 @@ public class FavouriteEmployerController {
     if (favouriteEmployerService.updateComment(id, comment)) {
       return Response.ok().build();
     } else {
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      return Response.status(Response.Status.BAD_REQUEST)
+        .entity(String.format("Favourite employer with id = %s does not exist!", id))
+        .build();
     }
   }
 
@@ -58,7 +71,9 @@ public class FavouriteEmployerController {
     if (favouriteEmployerService.delete(id)) {
       return Response.ok().build();
     } else {
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      return Response.status(Response.Status.BAD_REQUEST)
+        .entity(String.format("Favourite employer with id = %s does not exist!", id))
+        .build();
     }
   }
 
@@ -68,7 +83,9 @@ public class FavouriteEmployerController {
     if (favouriteEmployerService.refresh(id)) {
       return Response.ok().build();
     } else {
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      return Response.status(Response.Status.BAD_REQUEST)
+        .entity(String.format("Favourite employer with id = %s does not exist!", id))
+        .build();
     }
   }
 
