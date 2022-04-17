@@ -1,9 +1,18 @@
 package ru.hh.school.entity;
 
 import org.hibernate.annotations.Type;
-import ru.hh.school.Popularity;
+import ru.hh.school.dto.Popularity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "favourite_employer")
@@ -13,24 +22,29 @@ public class FavouriteEmployer {
   @Column(name = "employer_id")
   private Long id;
 
+  @NotNull
   @Column(name = "employer_name")
   private String name;
 
+  @NotNull
   @Column(name = "date_creation")
   private String creationDate;
 
   private String description;
 
+  @NotNull
   @JoinColumn(name = "area_id")
   @ManyToOne(fetch = FetchType.LAZY)
   private Area area;
 
   private String comment;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
-  @Type(type = "ru.hh.school.PostgreSQLEnumType")
+  @Type(type = "ru.hh.school.config.PostgreSQLEnumType")
   private Popularity popularity;
 
+  @NotNull
   @Column(name = "views_count")
   private Integer viewsCount;
 

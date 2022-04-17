@@ -1,62 +1,67 @@
 package ru.hh.school.client;
 
-import ru.hh.school.dto.employer.HhEmployerResponse;
-import ru.hh.school.dto.employer.HhListEmployerResponse;
-import ru.hh.school.dto.vacancy.HhListVacancyResponse;
-import ru.hh.school.dto.vacancy.HhVacancyResponse;
+import ru.hh.nab.common.properties.FileSettings;
+import ru.hh.school.dto.employer.HhEmployerResponseDto;
+import ru.hh.school.dto.employer.HhListEmployerResponseDto;
+import ru.hh.school.dto.vacancy.HhListVacancyResponseDto;
+import ru.hh.school.dto.vacancy.HhVacancyResponseDto;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 
 @Singleton
 public class HhApiClient {
 
-  private static final String HH_API_URI = "https://api.hh.ru";
-  private static final String EMPLOYER_ENDPOINT = "employers";
-  private static final String VACANCY_ENDPOINT = "vacancies";
-  private static final String AGENT_HEADER = "User-Agent";
-  private static final String AGENT_VALUE = "Dmitry Noskov";
+  private final String EMPLOYER_ENDPOINT;
+  private final String VACANCY_ENDPOINT;
+  private final String AGENT_HEADER;
+  private final String AGENT_VALUE;
 
-  private Client client = ClientBuilder.newClient();
+  private final Client client;
 
-  public HhEmployerResponse getEmployer(Long id) {
-    return client.target(HH_API_URI)
-      .path(EMPLOYER_ENDPOINT)
+  @Inject
+  public HhApiClient(Client client, FileSettings fileSettings) {
+    this.client = client;
+    EMPLOYER_ENDPOINT = fileSettings.getString("hh.api.employer");
+    VACANCY_ENDPOINT = fileSettings.getString("hh.api.vacancy");
+    AGENT_HEADER = fileSettings.getString("hh.api.header");
+    AGENT_VALUE = fileSettings.getString("hh.api.agent");
+  }
+
+  public HhEmployerResponseDto getEmployer(Long id) {
+    return client.target(EMPLOYER_ENDPOINT)
       .path("/" + id)
       .request(MediaType.APPLICATION_JSON)
-      .get(HhEmployerResponse.class);
+      .get(HhEmployerResponseDto.class);
   }
 
-  public HhListEmployerResponse getEmployerList(String text, Integer page, Integer perPage) {
-    return client.target(HH_API_URI)
-      .path(EMPLOYER_ENDPOINT)
+  public HhListEmployerResponseDto getEmployerList(String text, Integer page, Integer perPage) {
+    return client.target(EMPLOYER_ENDPOINT)
       .queryParam("text", text)
       .queryParam("page", page.toString())
       .queryParam("per_page", perPage.toString())
       .request(MediaType.APPLICATION_JSON)
-      .get(HhListEmployerResponse.class);
+      .get(HhListEmployerResponseDto.class);
   }
 
-  public HhVacancyResponse getVacancy(Long id) {
-    return client.target(HH_API_URI + "/" + VACANCY_ENDPOINT + "/" + id)
-      //.path(VACANCY_ENDPOINT)
-      //.path("/" + id)
+  public HhVacancyResponseDto getVacancy(Long id) {
+    return client.target(VACANCY_ENDPOINT)
+      .path("/" + id)
       .request(MediaType.APPLICATION_JSON)
       .header(AGENT_HEADER, AGENT_VALUE)
-      .get(HhVacancyResponse.class);
+      .get(HhVacancyResponseDto.class);
   }
 
-  public HhListVacancyResponse getVacancyList(String text, Integer page, Integer perPage) {
-    return client.target(HH_API_URI)
-      .path(VACANCY_ENDPOINT)
+  public HhListVacancyResponseDto getVacancyList(String text, Integer page, Integer perPage) {
+    return client.target(VACANCY_ENDPOINT)
       .queryParam("text", text)
       .queryParam("page", page.toString())
       .queryParam("per_page", perPage.toString())
       .request(MediaType.APPLICATION_JSON)
       .header(AGENT_HEADER, AGENT_VALUE)
-      .get(HhListVacancyResponse.class);
+      .get(HhListVacancyResponseDto.class);
   }
 
 }

@@ -1,9 +1,17 @@
 package ru.hh.school.entity;
 
 import org.hibernate.annotations.Type;
-import ru.hh.school.Popularity;
+import ru.hh.school.dto.Popularity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -52,7 +60,7 @@ public class FavouriteVacancy {
 
   @NotNull
   @Enumerated(EnumType.STRING)
-  @Type(type = "ru.hh.school.PostgreSQLEnumType")
+  @Type(type = "ru.hh.school.config.PostgreSQLEnumType")
   private Popularity popularity;
 
   @NotNull

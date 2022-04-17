@@ -1,27 +1,27 @@
 package ru.hh.school.dto.vacancy;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.hh.school.dto.AreaDto;
-import ru.hh.school.dto.employer.HhEmployerResponse;
-import ru.hh.school.dto.employer.HhShortEmployerResponse;
+import ru.hh.school.dto.employer.EmployerShortResponseDto;
 
-import java.time.OffsetDateTime;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class HhVacancyResponse {
+public class VacancyResponseDto {
   private Long id;
   private String name;
   private AreaDto area;
   private SalaryDto salary;
   @JsonProperty("created_at")
   private String createdAt;
-  private HhShortEmployerResponse employer;
+  private EmployerShortResponseDto employer;
 
-  public HhVacancyResponse() {
+  public VacancyResponseDto() {
   }
 
-  public HhVacancyResponse(Long id, String name, AreaDto area, SalaryDto salary, String createdAt, HhShortEmployerResponse employer) {
+  public VacancyResponseDto(Long id,
+                            String name,
+                            AreaDto area,
+                            SalaryDto salary,
+                            String createdAt,
+                            EmployerShortResponseDto employer) {
     this.id = id;
     this.name = name;
     this.area = area;
@@ -70,11 +70,11 @@ public class HhVacancyResponse {
     this.createdAt = createdAt;
   }
 
-  public HhShortEmployerResponse getEmployer() {
+  public EmployerShortResponseDto getEmployer() {
     return employer;
   }
 
-  public void setEmployer(HhShortEmployerResponse employer) {
+  public void setEmployer(EmployerShortResponseDto employer) {
     this.employer = employer;
   }
 }

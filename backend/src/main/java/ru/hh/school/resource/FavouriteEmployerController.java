@@ -1,6 +1,6 @@
 package ru.hh.school.resource;
 
-import ru.hh.school.dto.employer.EmployerAddRequest;
+import ru.hh.school.dto.employer.EmployerAddRequestDto;
 import ru.hh.school.service.FavouriteEmployerService;
 
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ public class FavouriteEmployerController {
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response postEmployer(EmployerAddRequest body) {
+  public Response postEmployer(EmployerAddRequestDto body) {
     if (favouriteEmployerService.addEmployer(body.getId(), body.getComment())) {
       return Response.ok().build();
     } else {
@@ -35,7 +35,7 @@ public class FavouriteEmployerController {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getEmployers(@DefaultValue("0") @DecimalMin("0") @QueryParam("page") Integer page,
-                           @DefaultValue("20") @DecimalMin("0") @QueryParam("per_page") Integer perPage) {
+                               @DefaultValue("20") @DecimalMin("0") @QueryParam("per_page") Integer perPage) {
     return Response.ok()
       .entity(favouriteEmployerService.getEmployers(page, perPage))
       .build();

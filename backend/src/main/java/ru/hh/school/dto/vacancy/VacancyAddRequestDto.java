@@ -2,17 +2,17 @@ package ru.hh.school.dto.vacancy;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class VacancyAddRequest {
+public class VacancyAddRequestDto {
   @JsonProperty("vacancy_id")
   private Long id;
   private String comment;
 
-  public VacancyAddRequest(Long id, String comment) {
+  public VacancyAddRequestDto(Long id, String comment) {
     this.id = id;
     this.comment = comment;
   }
 
-  public VacancyAddRequest() {
+  public VacancyAddRequestDto() {
   }
 
   public Long getId() {

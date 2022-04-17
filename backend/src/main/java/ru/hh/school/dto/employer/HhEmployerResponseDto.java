@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ru.hh.school.dto.AreaDto;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HhEmployerResponse {
+public class HhEmployerResponseDto {
   private Long id;
   private String name;
   private String description;
   private AreaDto area;
 
-  public HhEmployerResponse() {
+  public HhEmployerResponseDto() {
   }
 
-  public HhEmployerResponse(Long id, String name, String description, AreaDto area) {
+  public HhEmployerResponseDto(Long id, String name, String description, AreaDto area) {
     this.id = id;
     this.name = name;
     this.description = description;

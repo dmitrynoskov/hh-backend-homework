@@ -1,11 +1,10 @@
 package ru.hh.school.service;
 
-import ru.hh.school.Popularity;
 import ru.hh.school.dao.AreaDao;
 import ru.hh.school.dao.FavouriteEmployerDao;
 import ru.hh.school.dao.FavouriteVacancyDao;
-import ru.hh.school.dto.vacancy.FavouriteVacancyResponse;
-import ru.hh.school.dto.vacancy.VacancyResponse;
+import ru.hh.school.dto.vacancy.FavouriteVacancyResponseDto;
+import ru.hh.school.dto.vacancy.VacancyResponseDto;
 import ru.hh.school.entity.Area;
 import ru.hh.school.entity.FavouriteVacancy;
 import ru.hh.school.mapper.VacancyMapper;
@@ -39,8 +38,8 @@ public class FavouriteVacancyService {
   }
 
   public boolean addVacancy(Long vacancyId, String comment) {
-    VacancyResponse vacancyResponse = vacancyService.getVacancyById(vacancyId);
-    FavouriteVacancy favouriteVacancy = VacancyMapper.toVacancyEntity(vacancyResponse, comment);
+    VacancyResponseDto vacancyResponseDto = vacancyService.getVacancyById(vacancyId);
+    FavouriteVacancy favouriteVacancy = VacancyMapper.toVacancyEntity(vacancyResponseDto, comment);
     Area area = favouriteVacancy.getArea();
     transactionHelper.inTransaction(() -> {
       areaDao.saveOrUpdate(area);
@@ -49,7 +48,7 @@ public class FavouriteVacancyService {
     return true;
   }
 
-  public List<FavouriteVacancyResponse> getVacancies(Integer page, Integer perPage) {
+  public List<FavouriteVacancyResponseDto> getVacancies(Integer page, Integer perPage) {
     List<FavouriteVacancy> vacancyList = transactionHelper.
       inTransaction(() -> {
         List<FavouriteVacancy> vacancies = favouriteVacancyDao.getListSorted(page * page, perPage);
@@ -75,14 +74,14 @@ public class FavouriteVacancyService {
 
   public boolean delete(Long vacancyId) {
     transactionHelper.inTransaction(() -> {
-      favouriteVacancyDao.delete(vacancyId);
+      favouriteVacancyDao.delete(FavouriteVacancy.class, vacancyId);
     });
     return true;
   }
 
   public boolean refresh(Long vacancyId) {
-    VacancyResponse vacancyResponse = vacancyService.getVacancyById(vacancyId);
-    FavouriteVacancy freshVacancy = VacancyMapper.toVacancyEntity(vacancyResponse, "");
+    VacancyResponseDto vacancyResponseDto = vacancyService.getVacancyById(vacancyId);
+    FavouriteVacancy freshVacancy = VacancyMapper.toVacancyEntity(vacancyResponseDto, "");
     Area freshArea = freshVacancy.getArea();
     transactionHelper.inTransaction(() -> {
       areaDao.saveOrUpdate(freshArea);

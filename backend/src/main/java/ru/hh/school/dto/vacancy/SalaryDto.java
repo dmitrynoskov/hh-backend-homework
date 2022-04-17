@@ -7,7 +7,7 @@ public class SalaryDto {
   private Integer to;
   private Integer from;
   private String currency;
-  private Boolean gross;
+  private boolean gross;
 
   public SalaryDto() {
   }

@@ -1,11 +1,11 @@
 package ru.hh.school.dto.vacancy;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.hh.school.Popularity;
+import ru.hh.school.dto.Popularity;
 import ru.hh.school.dto.AreaDto;
-import ru.hh.school.dto.employer.EmployerShortResponse;
+import ru.hh.school.dto.employer.EmployerShortResponseDto;
 
-public class FavouriteVacancyResponse {
+public class FavouriteVacancyResponseDto {
 
   private Long id;
   private String name;
@@ -15,25 +15,25 @@ public class FavouriteVacancyResponse {
   private SalaryDto salary;
   @JsonProperty("created_at")
   private String createdAt;
-  private EmployerShortResponse employer;
+  private EmployerShortResponseDto employer;
   private Popularity popularity;
   @JsonProperty("views_count")
   private Integer viewsCount;
   private String comment;
 
-  public FavouriteVacancyResponse() {
+  public FavouriteVacancyResponseDto() {
   }
 
-  public FavouriteVacancyResponse(Long id,
-                                  String name,
-                                  String dateCreation,
-                                  AreaDto area,
-                                  SalaryDto salary,
-                                  String createdAt,
-                                  EmployerShortResponse employer,
-                                  Popularity popularity,
-                                  Integer viewsCount,
-                                  String comment) {
+  public FavouriteVacancyResponseDto(Long id,
+                                     String name,
+                                     String dateCreation,
+                                     AreaDto area,
+                                     SalaryDto salary,
+                                     String createdAt,
+                                     EmployerShortResponseDto employer,
+                                     Popularity popularity,
+                                     Integer viewsCount,
+                                     String comment) {
     this.id = id;
     this.name = name;
     this.dateCreation = dateCreation;
@@ -94,11 +94,11 @@ public class FavouriteVacancyResponse {
     this.createdAt = createdAt;
   }
 
-  public EmployerShortResponse getEmployer() {
+  public EmployerShortResponseDto getEmployer() {
     return employer;
   }
 
-  public void setEmployer(EmployerShortResponse employer) {
+  public void setEmployer(EmployerShortResponseDto employer) {
     this.employer = employer;
   }
 

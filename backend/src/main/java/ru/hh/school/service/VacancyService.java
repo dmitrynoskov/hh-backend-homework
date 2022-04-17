@@ -1,9 +1,7 @@
 package ru.hh.school.service;
 
 import ru.hh.school.client.HhApiClient;
-import ru.hh.school.dto.employer.EmployerResponse;
-import ru.hh.school.dto.vacancy.HhVacancyResponse;
-import ru.hh.school.dto.vacancy.VacancyResponse;
+import ru.hh.school.dto.vacancy.VacancyResponseDto;
 import ru.hh.school.mapper.VacancyMapper;
 
 import javax.inject.Inject;
@@ -21,7 +19,7 @@ public class VacancyService {
     this.hhApiClient = hhApiClient;
   }
 
-  public List<VacancyResponse> getVacancies(String text, Integer page, Integer perPage) {
+  public List<VacancyResponseDto> getVacancies(String text, Integer page, Integer perPage) {
     return hhApiClient
       .getVacancyList(text, page, perPage)
       .getItems()
@@ -30,7 +28,7 @@ public class VacancyService {
       .collect(Collectors.toList());
   }
 
-  public VacancyResponse getVacancyById(Long id) {
+  public VacancyResponseDto getVacancyById(Long id) {
     return VacancyMapper.toResponse(hhApiClient.getVacancy(id));
   }
 

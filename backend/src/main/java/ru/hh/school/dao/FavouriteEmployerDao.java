@@ -2,7 +2,8 @@ package ru.hh.school.dao;
 
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import ru.hh.school.Popularity;
+import ru.hh.nab.common.properties.FileSettings;
+import ru.hh.school.dto.Popularity;
 import ru.hh.school.entity.FavouriteEmployer;
 
 import java.util.List;
@@ -10,16 +11,8 @@ import java.util.List;
 @Repository
 public class FavouriteEmployerDao extends GenericDao {
 
-  public FavouriteEmployerDao(SessionFactory sessionFactory) {
-    super(sessionFactory);
-  }
-
-  public void delete(Long id) {
-    if (id == null) {
-      return;
-    }
-    FavouriteEmployer favouriteEmployer = getSession().find(FavouriteEmployer.class, id);
-    getSession().remove(favouriteEmployer);
+  public FavouriteEmployerDao(SessionFactory sessionFactory, FileSettings fileSettings) {
+    super(sessionFactory, fileSettings);
   }
 
   public void updateViewsCountIfExists(Long id) {
@@ -32,7 +25,7 @@ public class FavouriteEmployerDao extends GenericDao {
 
   public void updateViewsCount(FavouriteEmployer favouriteEmployer) {
     favouriteEmployer.setViewsCount(favouriteEmployer.getViewsCount() + 1);
-    if (favouriteEmployer.getViewsCount() > 50) {
+    if (favouriteEmployer.getViewsCount() > popularityLimit) {
       favouriteEmployer.setPopularity(Popularity.POPULAR);
     }
     update(favouriteEmployer);

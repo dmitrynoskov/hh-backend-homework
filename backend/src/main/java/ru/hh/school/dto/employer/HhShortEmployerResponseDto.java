@@ -1,13 +1,16 @@
 package ru.hh.school.dto.employer;
 
-public class EmployerShortResponse {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class HhShortEmployerResponseDto {
   private Long id;
   private String name;
 
-  public EmployerShortResponse() {
+  public HhShortEmployerResponseDto() {
   }
 
-  public EmployerShortResponse(Long id, String name) {
+  public HhShortEmployerResponseDto(Long id, String name) {
     this.id = id;
     this.name = name;
   }
@@ -27,4 +30,5 @@ public class EmployerShortResponse {
   public void setName(String name) {
     this.name = name;
   }
+
 }

@@ -5,18 +5,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import ru.hh.nab.hibernate.MappingConfig;
 import ru.hh.nab.starter.NabCommonConfig;
-import ru.hh.school.PostgreSQLEnumType;
 import ru.hh.school.client.HhApiClient;
 import ru.hh.school.dao.AreaDao;
 import ru.hh.school.dao.FavouriteEmployerDao;
 import ru.hh.school.dao.FavouriteVacancyDao;
-import ru.hh.school.dao.GenericDao;
 import ru.hh.school.resource.*;
 import ru.hh.school.service.EmployerService;
 import ru.hh.school.service.FavouriteEmployerService;
 import ru.hh.school.service.FavouriteVacancyService;
 import ru.hh.school.service.VacancyService;
 import ru.hh.school.util.TransactionHelper;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 
 @Configuration
 @Import({
@@ -46,4 +47,10 @@ public class CommonConfig {
     mappingConfig.addPackagesToScan("ru.hh.school.entity");
     return mappingConfig;
   }
+
+  @Bean
+  public Client client() {
+    return ClientBuilder.newClient();
+  }
+
 }

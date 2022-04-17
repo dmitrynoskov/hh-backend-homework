@@ -1,10 +1,9 @@
 package ru.hh.school.service;
 
-import ru.hh.school.Popularity;
 import ru.hh.school.dao.AreaDao;
 import ru.hh.school.dao.FavouriteEmployerDao;
-import ru.hh.school.dto.employer.EmployerResponse;
-import ru.hh.school.dto.employer.FavouriteEmployerResponse;
+import ru.hh.school.dto.employer.EmployerResponseDto;
+import ru.hh.school.dto.employer.FavouriteEmployerResponseDto;
 import ru.hh.school.entity.Area;
 import ru.hh.school.entity.FavouriteEmployer;
 import ru.hh.school.mapper.EmployerMapper;
@@ -35,8 +34,8 @@ public class FavouriteEmployerService {
   }
 
   public boolean addEmployer(Long employerId, String comment) {
-    EmployerResponse employerResponse = employerService.getEmployerById(employerId);
-    FavouriteEmployer favouriteEmployer = EmployerMapper.toEmployerEntity(employerResponse, comment);
+    EmployerResponseDto employerResponseDto = employerService.getEmployerById(employerId);
+    FavouriteEmployer favouriteEmployer = EmployerMapper.toEmployerEntity(employerResponseDto, comment);
     Area area = favouriteEmployer.getArea();
     transactionHelper.inTransaction(() -> {
       areaDao.saveOrUpdate(area);
@@ -45,16 +44,11 @@ public class FavouriteEmployerService {
     return true;
   }
 
-  public List<FavouriteEmployerResponse> getEmployers(Integer page, Integer perPage) {
+  public List<FavouriteEmployerResponseDto> getEmployers(Integer page, Integer perPage) {
     List<FavouriteEmployer> employersList = transactionHelper.
       inTransaction(() -> {
         List<FavouriteEmployer> employers = favouriteEmployerDao.getListSorted(page * page, perPage);
-        employers.forEach(employer -> {
-          employer.setViewsCount(employer.getViewsCount() + 1);
-          if (employer.getViewsCount() > 50) {
-            employer.setPopularity(Popularity.POPULAR);
-          }
-        });
+        employers.forEach(favouriteEmployerDao::updateViewsCount);
         return employers;
       });
     return employersList.stream()
@@ -73,14 +67,14 @@ public class FavouriteEmployerService {
 
   public boolean delete(Long employerId) {
     transactionHelper.inTransaction(() -> {
-      favouriteEmployerDao.delete(employerId);
+      favouriteEmployerDao.delete(FavouriteEmployer.class, employerId);
     });
     return true;
   }
 
   public boolean refresh(Long employerId) {
-    EmployerResponse employerResponse = employerService.getEmployerById(employerId);
-    FavouriteEmployer freshEmployer = EmployerMapper.toEmployerEntity(employerResponse, "");
+    EmployerResponseDto employerResponseDto = employerService.getEmployerById(employerId);
+    FavouriteEmployer freshEmployer = EmployerMapper.toEmployerEntity(employerResponseDto, "");
     Area freshArea = freshEmployer.getArea();
     transactionHelper.inTransaction(() -> {
       areaDao.saveOrUpdate(freshArea);

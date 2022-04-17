@@ -1,4 +1,4 @@
-package ru.hh.school;
+package ru.hh.school.config;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

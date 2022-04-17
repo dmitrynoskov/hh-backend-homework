@@ -1,10 +1,10 @@
 package ru.hh.school.dto.employer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.hh.school.Popularity;
+import ru.hh.school.dto.Popularity;
 import ru.hh.school.dto.AreaDto;
 
-public class FavouriteEmployerResponse {
+public class FavouriteEmployerResponseDto {
   private Long id;
   private String name;
   @JsonProperty("date_create")
@@ -16,10 +16,10 @@ public class FavouriteEmployerResponse {
   @JsonProperty("views_count")
   private Integer viewsCount;
 
-  public FavouriteEmployerResponse() {
+  public FavouriteEmployerResponseDto() {
   }
 
-  public FavouriteEmployerResponse(Long id, String name, String dateCreation, String description, AreaDto area, String comment, Popularity popularity, Integer viewsCount) {
+  public FavouriteEmployerResponseDto(Long id, String name, String dateCreation, String description, AreaDto area, String comment, Popularity popularity, Integer viewsCount) {
     this.id = id;
     this.name = name;
     this.dateCreation = dateCreation;

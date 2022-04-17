@@ -1,47 +1,47 @@
 package ru.hh.school.mapper;
 
-import ru.hh.school.Popularity;
-import ru.hh.school.dto.employer.EmployerShortResponse;
-import ru.hh.school.dto.vacancy.FavouriteVacancyResponse;
-import ru.hh.school.dto.vacancy.HhVacancyResponse;
+import ru.hh.school.dto.Popularity;
+import ru.hh.school.dto.employer.EmployerShortResponseDto;
+import ru.hh.school.dto.vacancy.FavouriteVacancyResponseDto;
+import ru.hh.school.dto.vacancy.HhVacancyResponseDto;
 import ru.hh.school.dto.vacancy.SalaryDto;
-import ru.hh.school.dto.vacancy.VacancyResponse;
+import ru.hh.school.dto.vacancy.VacancyResponseDto;
 import ru.hh.school.entity.FavouriteVacancy;
 
 public class VacancyMapper extends CommonMapper {
 
-  public static VacancyResponse toResponse(HhVacancyResponse hhVacancyResponse) {
-    return new VacancyResponse(
-      hhVacancyResponse.getId(),
-      hhVacancyResponse.getName(),
-      hhVacancyResponse.getArea(),
-      hhVacancyResponse.getSalary(),
-      hhVacancyResponse.getCreatedAt(),
-      EmployerMapper.toShortResponse(hhVacancyResponse.getEmployer())
+  public static VacancyResponseDto toResponse(HhVacancyResponseDto hhVacancyResponseDto) {
+    return new VacancyResponseDto(
+      hhVacancyResponseDto.getId(),
+      hhVacancyResponseDto.getName(),
+      hhVacancyResponseDto.getArea(),
+      hhVacancyResponseDto.getSalary(),
+      hhVacancyResponseDto.getCreatedAt(),
+      EmployerMapper.toShortResponse(hhVacancyResponseDto.getEmployer())
     );
   }
 
-  public static FavouriteVacancy toVacancyEntity(VacancyResponse vacancyResponse, String comment) {
+  public static FavouriteVacancy toVacancyEntity(VacancyResponseDto vacancyResponseDto, String comment) {
     return new FavouriteVacancy(
-      vacancyResponse.getId(),
-      vacancyResponse.getName(),
-      vacancyResponse.getCreatedAt(),
-      toAreaEntity(vacancyResponse.getArea()),
-      vacancyResponse.getSalary().getFrom(),
-      vacancyResponse.getSalary().getTo(),
-      vacancyResponse.getSalary().getCurrency(),
-      vacancyResponse.getSalary().getGross(),
+      vacancyResponseDto.getId(),
+      vacancyResponseDto.getName(),
+      vacancyResponseDto.getCreatedAt(),
+      toAreaEntity(vacancyResponseDto.getArea()),
+      vacancyResponseDto.getSalary().getFrom(),
+      vacancyResponseDto.getSalary().getTo(),
+      vacancyResponseDto.getSalary().getCurrency(),
+      vacancyResponseDto.getSalary().getGross(),
       getFormattedTime(),
-      vacancyResponse.getEmployer().getId(),
-      vacancyResponse.getEmployer().getName(),
+      vacancyResponseDto.getEmployer().getId(),
+      vacancyResponseDto.getEmployer().getName(),
       Popularity.REGULAR,
       0,
       comment
     );
   }
 
-  public static FavouriteVacancyResponse toFavouriteResponse(FavouriteVacancy favouriteVacancy) {
-    return new FavouriteVacancyResponse(
+  public static FavouriteVacancyResponseDto toFavouriteResponse(FavouriteVacancy favouriteVacancy) {
+    return new FavouriteVacancyResponseDto(
       favouriteVacancy.getId(),
       favouriteVacancy.getName(),
       favouriteVacancy.getDateCreation(),
@@ -64,8 +64,8 @@ public class VacancyMapper extends CommonMapper {
     );
   }
 
-  private static EmployerShortResponse toEmployerShortResponse(FavouriteVacancy favouriteVacancy) {
-    return new EmployerShortResponse(favouriteVacancy.getEmployerId(), favouriteVacancy.getEmployerName());
+  private static EmployerShortResponseDto toEmployerShortResponse(FavouriteVacancy favouriteVacancy) {
+    return new EmployerShortResponseDto(favouriteVacancy.getEmployerId(), favouriteVacancy.getEmployerName());
   }
 
 }

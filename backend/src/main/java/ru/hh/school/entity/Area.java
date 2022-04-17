@@ -1,8 +1,10 @@
 package ru.hh.school.entity;
 
-import org.hibernate.annotations.GeneratorType;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "area")
@@ -11,6 +13,7 @@ public class Area {
   @Column(name = "area_id")
   private Long id;
 
+  @NotNull
   @Column(name = "area_name")
   private String name;
 

@@ -2,16 +2,16 @@ package ru.hh.school.dto.employer;
 
 import ru.hh.school.dto.AreaDto;
 
-public class EmployerResponse {
+public class EmployerResponseDto {
   private Long id;
   private String name;
   private String description;
   private AreaDto area;
 
-  public EmployerResponse() {
+  public EmployerResponseDto() {
   }
 
-  public EmployerResponse(Long id, String name, String description, AreaDto area) {
+  public EmployerResponseDto(Long id, String name, String description, AreaDto area) {
     this.id = id;
     this.name = name;
     this.description = description;

@@ -1,8 +1,8 @@
 package ru.hh.school.service;
 
 import ru.hh.school.client.HhApiClient;
-import ru.hh.school.dto.employer.EmployerResponse;
-import ru.hh.school.dto.employer.EmployerShortResponse;
+import ru.hh.school.dto.employer.EmployerResponseDto;
+import ru.hh.school.dto.employer.EmployerShortResponseDto;
 import ru.hh.school.mapper.EmployerMapper;
 
 import javax.inject.Inject;
@@ -20,7 +20,7 @@ public class EmployerService {
     this.hhApiClient = hhApiClient;
   }
 
-  public List<EmployerShortResponse> getEmployers(String text, Integer page, Integer perPage) {
+  public List<EmployerShortResponseDto> getEmployers(String text, Integer page, Integer perPage) {
     return hhApiClient
       .getEmployerList(text, page, perPage)
       .getItems()
@@ -29,7 +29,7 @@ public class EmployerService {
       .collect(Collectors.toList());
   }
 
-  public EmployerResponse getEmployerById(Long id) {
+  public EmployerResponseDto getEmployerById(Long id) {
     return EmployerMapper.toResponse(hhApiClient.getEmployer(id));
   }
 
