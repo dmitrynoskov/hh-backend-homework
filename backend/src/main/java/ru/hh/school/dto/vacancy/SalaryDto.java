@@ -4,34 +4,34 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SalaryDto {
-  private Long to;
-  private Long from;
+  private Integer to;
+  private Integer from;
   private String currency;
   private Boolean gross;
 
   public SalaryDto() {
   }
 
-  public SalaryDto(Long to, Long from, String currency, Boolean gross) {
+  public SalaryDto(Integer to, Integer from, String currency, Boolean gross) {
     this.to = to;
     this.from = from;
     this.currency = currency;
     this.gross = gross;
   }
 
-  public Long getTo() {
+  public Integer getTo() {
     return to;
   }
 
-  public void setTo(Long to) {
+  public void setTo(Integer to) {
     this.to = to;
   }
 
-  public Long getFrom() {
+  public Integer getFrom() {
     return from;
   }
 
-  public void setFrom(Long from) {
+  public void setFrom(Integer from) {
     this.from = from;
   }
 

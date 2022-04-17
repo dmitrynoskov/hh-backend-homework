@@ -9,13 +9,12 @@ import ru.hh.school.PostgreSQLEnumType;
 import ru.hh.school.client.HhApiClient;
 import ru.hh.school.dao.AreaDao;
 import ru.hh.school.dao.FavouriteEmployerDao;
+import ru.hh.school.dao.FavouriteVacancyDao;
 import ru.hh.school.dao.GenericDao;
-import ru.hh.school.resource.EmployerController;
-import ru.hh.school.resource.ExampleResource;
-import ru.hh.school.resource.FavouriteEmployerController;
-import ru.hh.school.resource.VacancyController;
+import ru.hh.school.resource.*;
 import ru.hh.school.service.EmployerService;
 import ru.hh.school.service.FavouriteEmployerService;
+import ru.hh.school.service.FavouriteVacancyService;
 import ru.hh.school.service.VacancyService;
 import ru.hh.school.util.TransactionHelper;
 
@@ -25,15 +24,17 @@ import ru.hh.school.util.TransactionHelper;
   ExampleResource.class,
   NabCommonConfig.class,
   EmployerController.class,
-  HhApiClient.class,
-  EmployerService.class,
   FavouriteEmployerController.class,
-  FavouriteEmployerService.class,
   VacancyController.class,
+  FavouriteVacancyController.class,
+  EmployerService.class,
+  FavouriteEmployerService.class,
   VacancyService.class,
+  FavouriteVacancyService.class,
+  HhApiClient.class,
   AreaDao.class,
   FavouriteEmployerDao.class,
-  GenericDao.class,
+  FavouriteVacancyDao.class,
   TransactionHelper.class,
   PostgreSQLEnumType.class
 })

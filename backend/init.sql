@@ -26,7 +26,8 @@ create table if not exists favourite_vacancy (
     salary_currency varchar(5) not null,
     salary_gross boolean,
     created_at varchar(50) not null,
-    employer_id bigint references favourite_employer(employer_id),
+    employer_id bigint,
+    employer_name varchar(255),
     popularity popularity not null,
     views_count int not null,
     comment varchar(255)

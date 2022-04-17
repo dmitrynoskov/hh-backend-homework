@@ -1,7 +1,6 @@
 package ru.hh.school.service;
 
 import ru.hh.school.Popularity;
-import ru.hh.school.client.HhApiClient;
 import ru.hh.school.dao.AreaDao;
 import ru.hh.school.dao.FavouriteEmployerDao;
 import ru.hh.school.dto.employer.EmployerResponse;
@@ -19,19 +18,16 @@ import java.util.stream.Collectors;
 @Singleton
 public class FavouriteEmployerService {
 
-  private final HhApiClient hhApiClient;
   private final EmployerService employerService;
   private final AreaDao areaDao;
   private final FavouriteEmployerDao favouriteEmployerDao;
   private final TransactionHelper transactionHelper;
 
   @Inject
-  public FavouriteEmployerService(HhApiClient hhApiClient,
-                                  EmployerService employerService,
+  public FavouriteEmployerService(EmployerService employerService,
                                   AreaDao areaDao,
                                   FavouriteEmployerDao favouriteEmployerDao,
                                   TransactionHelper transactionHelper) {
-    this.hhApiClient = hhApiClient;
     this.employerService = employerService;
     this.areaDao = areaDao;
     this.favouriteEmployerDao = favouriteEmployerDao;

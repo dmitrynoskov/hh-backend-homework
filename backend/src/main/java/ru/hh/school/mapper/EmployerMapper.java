@@ -1,18 +1,11 @@
 package ru.hh.school.mapper;
 
 import ru.hh.school.Popularity;
-import ru.hh.school.dto.AreaDto;
 import ru.hh.school.dto.employer.*;
 import ru.hh.school.entity.Area;
 import ru.hh.school.entity.FavouriteEmployer;
 
-import java.text.SimpleDateFormat;
-import java.time.OffsetDateTime;
-import java.util.Date;
-
-public class EmployerMapper {
-
-  private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+public class EmployerMapper extends CommonMapper {
 
   public static EmployerShortResponse toShortResponse(HhEmployerResponse hhEmployerResponse) {
     return new EmployerShortResponse(hhEmployerResponse.getId(), hhEmployerResponse.getName());
@@ -38,7 +31,7 @@ public class EmployerMapper {
     favouriteEmployer.setName(employerResponse.getName());
     favouriteEmployer.setDescription(employerResponse.getDescription());
     favouriteEmployer.setArea(area);
-    favouriteEmployer.setCreationDate(simpleDateFormat.format(Date.from(OffsetDateTime.now().toInstant())));
+    favouriteEmployer.setCreationDate(getFormattedTime());
     favouriteEmployer.setComment(comment);
     favouriteEmployer.setViewsCount(0);
     favouriteEmployer.setPopularity(Popularity.REGULAR);
@@ -54,13 +47,6 @@ public class EmployerMapper {
       favouriteEmployer.getComment(),
       favouriteEmployer.getPopularity(),
       favouriteEmployer.getViewsCount());
-  }
-
-  private static AreaDto toAreaDto(Area area) {
-    return new AreaDto(area.getId(), area.getName());
-  }
-  private static Area toAreaEntity(AreaDto areaDto) {
-    return new Area(areaDto.getId(), areaDto.getName());
   }
 
 }
